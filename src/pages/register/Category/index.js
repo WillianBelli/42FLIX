@@ -32,8 +32,9 @@ function RegisterCategory() {
 
 
    useEffect(() => {
-     console.log('testing...');
-     const URL = 'http://localhost:3001/categories';
+        const URL = window.location.hostname.includes('localhost')
+     ? 'http://localhost:3001/categories'
+     : 'https://the42flix.herokuapp.com/categories';
      fetch(URL)
       .then(async (serverResponse) => {
         const response = await serverResponse.json();
