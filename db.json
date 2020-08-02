@@ -1,0 +1,17 @@
+{
+    "categories": [
+        {
+            "id": 1,
+            "name": "Code Learning",
+            "description":"The most excting videos about code learning in the youtube",
+            "color": "#4400ff"
+           
+        },
+        {
+            "id": 2,
+            "name": "Music",
+            "description":"Musics to listen while you're coding",
+            "color": "#ff0000"
+        }
+    ]
+}

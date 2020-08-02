@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../Components/PageDefault';
+import Button from '../../../Components/Button';
 import FormField from '../../../Components/FormField';
+
 
 function RegisterCategory() {
   const initialValues = {
@@ -27,6 +29,21 @@ function RegisterCategory() {
       eventInformations.target.value
       );        
    }
+
+
+   useEffect(() => {
+     console.log('testing...');
+     const URL = 'http://localhost:3001/categories';
+     fetch(URL)
+      .then(async (serverResponse) => {
+        const response = await serverResponse.json();
+        setCategories([
+          ...response,
+        ]);
+      });
+     
+   
+   });
 
     return (
     <PageDefault>
@@ -60,7 +77,7 @@ function RegisterCategory() {
           />
 
           <FormField
-            label="Category Color"
+            label="Color"
             type="color"
             value={values.color}
             name="color"
@@ -70,43 +87,22 @@ function RegisterCategory() {
 
 
 
-          {/*<div>
-            
-          <label>
-            Description:
-            <textarea
-             type="text"
-             value={values.description}
-             name="description"
-             onChange={handleChange}
-             
-            />
-          </label>
-          </div>
-
-          <div>
-          <label>
-            Category Color:
-            <input
-             type="Color"
-             value={values.color}
-             name="color"
-             onChange={handleChange}
-            />
-          </label>
-          </div>*/}
- 
-
-          <button>
+          <Button>
             Register
-          </button>
+          </Button>
         </form>
+
+        {categories.lenght === 0 && (
+        <div>
+          Loading...
+        </div>
+        )}
 
 
         <ul>
-          {categories.map((category, index) => {
+          {categories.map((category) => {
             return (
-              <li key={`${category}${index}`}>
+              <li key={`${category.name}`}>
                 {category.name}
               </li>
             )
