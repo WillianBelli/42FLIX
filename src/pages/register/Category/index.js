@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../Components/PageDefault';
 import Button from '../../../Components/Button';
 import FormField from '../../../Components/FormField';
+import useForm from '../../../hooks/useForm';
+
 
 
 function RegisterCategory() {
@@ -11,24 +13,12 @@ function RegisterCategory() {
     description: '',
     color:'',
   }
+
+  const {handleChange, values, clearForm} = useForm (initialValues)
+  
   const [categories, setCategories] = useState([]);
-  const [values, setValues] = useState(initialValues);
   
 
-  function setValue(key, value) {
-    setValues({
-      ...values,
-      [key]:value,
-    })
-  }
-
-  function handleChange(eventInformations){ 
-    //const {getAttribute, value} = eventInformations.target;              
-    setValue(
-      eventInformations.target.getAttribute('name'),
-      eventInformations.target.value
-      );        
-   }
 
 
    useEffect(() => {
@@ -42,9 +32,10 @@ function RegisterCategory() {
           ...response,
         ]);
       });
+   }, []);
      
    
-   });
+   
 
     return (
     <PageDefault>
@@ -57,7 +48,7 @@ function RegisterCategory() {
             values
           ]);
 
-          setValues(initialValues);
+          clearForm();
         }}>
 
         
