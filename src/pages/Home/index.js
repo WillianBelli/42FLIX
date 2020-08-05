@@ -1,16 +1,58 @@
-import React from 'react';
-import Menu from '../../Components/Menu'
-import dadosIniciais from '../../data/dados_iniciais.json';
+import React, { useEffect, useState } from 'react';
+// import Menu from '../../Components/Menu'
+// import dadosIniciais from '../../data/dados_iniciais.json';
 import BannerMain from '../../Components/BannerMain';
 import Carousel from '../../Components/Carousel';
-import Footer from '../../Components/Footer';
+// import Footer from '../../Components/Footer';
+import categoriesRepository from '../../repositories/categories';
+import PageDefault from '../../Components/PageDefault';
 
 function Home() {
-  return (
-    <div style={{ background: "#141414" }}>
-      <Menu />
 
-      <BannerMain
+  const [initialData, setInitialData] = useState([]);
+
+  useEffect(() => {
+    categoriesRepository.getAllWithVideos()
+      .then((categoriesWithVideos) => {
+        console.log(categoriesWithVideos[0].videos[0]);
+        setInitialData(categoriesWithVideos);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+  return (
+    <PageDefault paddingAll={0}>
+      {initialData.length === 0 && (<div>Loading...</div>)}
+
+{initialData.map((categoria, indice) => {
+  if (indice === 0) {
+    return (
+      <div key={categoria.id}>
+        <BannerMain
+          videoTitle={initialData[0].videos[0].titulo}
+          url={initialData[0].videos[0].url}
+          videoDescription={initialData[0].videos[0].description}
+        />
+        <Carousel
+          ignoreFirstVideo
+          category={initialData[0]}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <Carousel
+      key={categoria.id}
+      category={categoria}
+    />
+  );
+})}
+
+    
+
+      {/* <BannerMain
         videoTitle={dadosIniciais.categorias[0].videos[0].titulo}
         url={dadosIniciais.categorias[0].videos[0].url}
         videoDescription={"O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!"}
@@ -39,10 +81,8 @@ function Home() {
 
       <Carousel
         category={dadosIniciais.categorias[5]}
-      />      
-
-      <Footer />
-    </div>
+      />       */}
+    </PageDefault>
   );
 }
 

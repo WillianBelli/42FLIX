@@ -16,15 +16,15 @@ function RegisterCategory() {
 
   const {handleChange, values, clearForm} = useForm (initialValues)
   
-  const [categories, setCategories] = useState([]);
+  const [categorias, setCategories] = useState([]);
   
 
 
 
    useEffect(() => {
         const URL = window.location.hostname.includes('localhost')
-     ? 'http://localhost:3001/categories'
-     : 'https://the42flix.herokuapp.com/categories';
+     ? 'http://localhost:3001/categorias'
+     : 'https://the42flix.herokuapp.com/categorias';
      fetch(URL)
       .then(async (serverResponse) => {
         const response = await serverResponse.json();
@@ -39,13 +39,13 @@ function RegisterCategory() {
 
     return (
     <PageDefault>
-        <h1>Register Category Here!! {values.name}</h1>
+        <h1>Register Category Here: {values.name}</h1>
 
         <form onSubmit={function handleSubmit(eventInformations) {
           eventInformations.preventDefault();
           setCategories([
-            ...categories,
-            values
+            ...categorias,
+            values,
           ]);
 
           clearForm();
@@ -84,7 +84,7 @@ function RegisterCategory() {
           </Button>
         </form>
 
-        {categories.lenght === 0 && (
+        {categorias.lenght === 0 && (
         <div>
           Loading...
         </div>
@@ -92,10 +92,10 @@ function RegisterCategory() {
 
 
         <ul>
-          {categories.map((category) => {
+          {categorias.map((categoria) => {
             return (
-              <li key={`${category.name}`}>
-                {category.name}
+              <li key={`${categoria.titulo}`}>
+                {categoria.titulo}
               </li>
             )
           })}
